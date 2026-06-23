@@ -1,0 +1,9 @@
+# C++ build directories
+build/
+cmake-build-debug/
+EXTRAORDINARIA_2026_PEL/build/
+EXTRAORDINARIA_2026_PEL/cmake-build-debug/
+
+# IDE directories
+.idea/
+.vscode/

@@ -1,0 +1,83 @@
+{
+  "nombre": "Geo",
+  "passwd": "Sudosu",
+  "reserva": [
+        {
+          "nombre": "Rollo",
+          "esAliado": true,
+          "nivel": 5,
+          "poderCombate": 33
+        },
+        {
+          "nombre": "Erik",
+          "esAliado": true,
+          "nivel": 3,
+          "poderCombate": 30
+        },
+        {
+          "nombre": "Floki",
+          "esAliado": true,
+          "nivel": 7,
+          "poderCombate": 20
+        },
+        {
+          "nombre": "Ubba",
+          "esAliado": true,
+          "nivel": 4,
+          "poderCombate": 25
+        }
+  ],
+  "inventario": [
+        {
+          "nombre": "Pocion de Fuerza",
+          "tipo": 1,
+          "valor": 15
+        },
+        {
+          "nombre": "Pocion de Sabiduria",
+          "tipo": 0,
+          "valor": 250
+        }
+  ],
+  "ejercito": {
+    "nombreEjercito": "Geo_ejercito",
+    "esAliado": true,
+    "tropas": [
+        {
+          "nombreTropa": "Escuadron Crustaceo",
+          "soldados": [
+            {
+              "nombre": "Patrik",
+              "esAliado": true,
+              "nivel": 6,
+              "poderCombate": 30
+            },
+            {
+              "nombre": "Eugine",
+              "esAliado": true,
+              "nivel": 6,
+              "poderCombate": 30
+            },
+            {
+              "nombre": "Stuart",
+              "esAliado": true,
+              "nivel": 6,
+              "poderCombate": 30
+            },
+            {
+              "nombre": "Edward",
+              "esAliado": true,
+              "nivel": 6,
+              "poderCombate": 30
+            },
+            {
+              "nombre": "Bob",
+              "esAliado": true,
+              "nivel": 6,
+              "poderCombate": 30
+            }
+          ]
+        }
+    ]
+  }
+}
