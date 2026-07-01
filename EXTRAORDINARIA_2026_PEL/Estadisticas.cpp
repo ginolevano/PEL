@@ -15,6 +15,8 @@
 // ============================================================================
 #include <iostream>
 #include <string>
+#include "Urgencias.cpp"
+#include "MenuSistema.cpp"
 
 class NodoEstadistica {
 public:
