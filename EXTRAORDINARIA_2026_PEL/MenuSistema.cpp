@@ -18,6 +18,8 @@
 #include <limits>
 #include "Urgencias.cpp"
 #include "Estadistica.cpp"
+#include "HistorialPacientes.cpp"
+
 
 // ==========================================
 // SISTEMA DE URGENCIAS - MENU POR COMANDOS
