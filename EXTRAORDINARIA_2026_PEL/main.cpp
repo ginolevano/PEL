@@ -1,5 +1,5 @@
 #include "Urgencias.cpp"
-#include "EstadisticasConfiguracion.cpp"
+#include "Estadistica.cpp"
 #include "pruebaMenu.cpp"
 
 int main() {
