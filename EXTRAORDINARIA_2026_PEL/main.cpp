@@ -6,7 +6,5 @@ int main() {
     SistemaUrgencias sistema;
     sistema.ejecutar();
 
-
-
     return 0;
 }
