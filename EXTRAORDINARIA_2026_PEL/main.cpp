@@ -9,6 +9,7 @@
 #include "Historial.cpp"
 #include "Estadisticas.cpp"
 #include "MenuSistema.cpp"
+#include "HistorialPacientes.cpp"
 
 int main() {
     std::srand(std::time(nullptr));
@@ -18,8 +19,6 @@ int main() {
 
     // Iniciar el bucle de comandos del menú
     sistema.ejecutar();
-
-
 
     return 0;
 }
