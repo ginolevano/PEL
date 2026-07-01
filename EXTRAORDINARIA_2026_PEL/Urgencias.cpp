@@ -19,6 +19,11 @@ public:
         this->id = "PAC_" + std::to_string(nextId++);
     }
 
+    // Deshabilitar constructor de copia y operador de asignación
+    // para evitar la duplicidad accidental de pacientes en el sistema
+    Paciente(const Paciente&) = delete;
+    Paciente& operator=(const Paciente&) = delete;
+
     // Getters
     std::string getId() const { return id; }
     std::string getNombre() const { return nombre; }
@@ -68,6 +73,11 @@ private:
 
 public:
     ColaEnlazada() : front(nullptr), rear(nullptr), currentSize(0) {}
+
+    // Deshabilitar constructor de copia y operador de asignación
+    // para evitar copias superficiales (shallow copies) de los nodos de la cola
+    ColaEnlazada(const ColaEnlazada&) = delete;
+    ColaEnlazada& operator=(const ColaEnlazada&) = delete;
 
     // El destructor libera los nodos de la estructura,
     // pero NO borra al Paciente real ya que este se traslada al Historial.
@@ -138,6 +148,10 @@ private:
 
 public:
     ListaEspera() {}
+
+    // Deshabilitar copia para prevenir la clonación accidental del sistema de triaje
+    ListaEspera(const ListaEspera&) = delete;
+    ListaEspera& operator=(const ListaEspera&) = delete;
 
     // Liberación segura de la memoria de todos los pacientes en espera al salir del programa
     ~ListaEspera() {
