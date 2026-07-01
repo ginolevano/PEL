@@ -11,7 +11,7 @@
 #include "MenuSistema.cpp"
 
 int main() {
-    std::srand(std::time(nullptr));
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     // Instanciar el sistema de urgencias
     SistemaUrgencias sistema;
