@@ -17,9 +17,7 @@
 #include <string>
 #include <limits>
 #include "Urgencias.cpp"
-#include "Estadistica.cpp"
-#include "HistorialPacientes.cpp"
-
+#include "Estadisticas.cpp"
 
 // ==========================================
 // SISTEMA DE URGENCIAS - MENU POR COMANDOS
@@ -58,50 +56,50 @@ public:
 
 private:
     void procesarComando(const std::string& comando) {
-        if (comando == "help") {
+        if (comando == "ayuda") {
             mostrarAyuda();
         }
-        else if (comando == "add") {
+        else if (comando == "anadir") {
             comandoAdd();
         }
-        else if (comando == "attend") {
+        else if (comando == "atender") {
             comandoAttend();
         }
-        else if (comando == "wait") {
+        else if (comando == "esperar") {
             comandoWait();
         }
-        else if (comando == "history") {
+        else if (comando == "historial") {
             comandoHistory();
         }
-        else if (comando == "get") {
+        else if (comando == "mostrar") {
             comandoGet();
         }
-        else if (comando == "stats") {
+        else if (comando == "estadistica") {
             comandoStats();
         }
         else if (comando == "demo") {
             comandoDemo();
         }
-        else if (comando == "state") {
+        else if (comando == "estado") {
             mostrarEstadoGeneral();
         }
         else {
-            std::cout << "Comando no reconocido. Escribe 'help'." << std::endl;
+            std::cout << "Comando no reconocido. Escribe 'ayuda'." << std::endl;
         }
     }
 
     void mostrarAyuda() const {
         std::cout << std::endl;
         std::cout << "Comandos disponibles:" << std::endl;
-        std::cout << "help     -> mostrar ayuda" << std::endl;
-        std::cout << "add      -> anadir paciente" << std::endl;
-        std::cout << "attend   -> atender siguiente paciente" << std::endl;
-        std::cout << "wait     -> mostrar lista de espera" << std::endl;
-        std::cout << "history  -> mostrar historial" << std::endl;
-        std::cout << "get      -> mostrar paciente del historial por indice" << std::endl;
-        std::cout << "stats    -> mostrar estadisticas" << std::endl;
+        std::cout << "ayuda     -> mostrar ayuda" << std::endl;
+        std::cout << "anadir      -> anadir paciente" << std::endl;
+        std::cout << "atender   -> atender siguiente paciente" << std::endl;
+        std::cout << "esperar     -> mostrar lista de espera" << std::endl;
+        std::cout << "historial  -> mostrar historial" << std::endl;
+        std::cout << "mostrar      -> mostrar paciente del historial por indice" << std::endl;
+        std::cout << "estadistica    -> mostrar estadisticas" << std::endl;
         std::cout << "demo     -> cargar pacientes de prueba" << std::endl;
-        std::cout << "state    -> mostrar estado general" << std::endl;
+        std::cout << "estado    -> mostrar estado general" << std::endl;
         std::cout << "exit     -> salir" << std::endl;
     }
 
