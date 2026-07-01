@@ -1,9 +1,23 @@
+// ============================================================================
+// REVISIÓN Y RECOMENDACIONES DE INTEGRACIÓN (POR FAVOR REVISAR):
+// 1. BUG DE BUCLE INFINITO EN limpiarBuffer(): Si se introduce una entrada no 
+//    numérica (como texto en Prioridad o Índice), std::cin entra en estado de error 
+//    y std::cin.ignore() no hace nada. CORREGIDO: Se añadió std::cin.clear() antes.
+// 2. INCLUSIONES DE LOS COMPAÑEROS: Para que este archivo reconozca las clases 
+//    externas, se requiere incluir sus partes al inicio:
+//    #include "Urgencias.cpp"
+//    #include "Historial.cpp"             // (Persona B debe crearlo)
+//    #include "Estadísticas y Configuración.cpp" // (Renombrar a Estadisticas.cpp recomendado)
+// ============================================================================
+
 //
 // Created by GINO LEVANO on 01/07/2026.
 //
 #include <iostream>
 #include <string>
 #include <limits>
+#include "Urgencias.cpp"
+#include "Historial.cpp"
 
 // ==========================================
 // SISTEMA DE URGENCIAS - MENU POR COMANDOS
@@ -188,6 +202,9 @@ private:
     }
 
     void limpiarBuffer() const {
+        if (std::cin.fail()) {
+            std::cin.clear(); // Limpia el estado de error de la consola
+        }
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 };
