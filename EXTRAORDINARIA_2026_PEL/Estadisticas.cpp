@@ -51,6 +51,11 @@ public:
         agregarEstadistica("Pacientes prioridad 3", 0);
         agregarEstadistica("Pacientes prioridad 4", 0);
         agregarEstadistica("Pacientes prioridad 5", 0);
+
+        // --- CONFIGURACIÓN DE LA HERRAMIENTA ---
+        agregarEstadistica("ID de la Unidad de Combate", 101);
+        agregarEstadistica("Umbral de Alerta de Espera", 5);
+        agregarEstadistica("Capacidad Inicial de Historial", 2);
     }
 
     // Deshabilitar copia para prevenir la duplicidad de nodos y doble liberación
@@ -141,15 +146,31 @@ public:
         return -1;
     }
 
+    void establecerValor(string nombre, int nuevoValor) {
+        NodoEstadistica* actual = cabeza;
+
+        while (actual != nullptr) {
+            if (actual->nombre == nombre) {
+                actual->valor = nuevoValor;
+                return;
+            }
+
+            actual = actual->siguiente;
+        }
+    }
+
     void reiniciarEstadisticas() {
         NodoEstadistica* actual = cabeza;
 
         while (actual != nullptr) {
-            actual->valor = 0;
+            // Solo reiniciar contadores de estadísticas, no las configuraciones de la herramienta
+            if (actual->nombre.rfind("Total", 0) == 0 || actual->nombre.rfind("Pacientes", 0) == 0) {
+                actual->valor = 0;
+            }
             actual = actual->siguiente;
         }
 
-        cout << "Estadisticas reiniciadas correctamente." << endl;
+        std::cout << "Estadisticas de pacientes reiniciadas correctamente." << std::endl;
     }
 };
 

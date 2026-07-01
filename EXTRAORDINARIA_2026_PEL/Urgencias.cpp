@@ -188,13 +188,19 @@ public:
     }
 
     // Mostrar el estado de todas las colas de urgencias
-    void mostrarListaEspera() const {
+    // Mostrar el estado de todas las colas de urgencias con umbral de alerta opcional
+    void mostrarListaEspera(int umbral = 5) const {
         std::cout << "\n=============================================" << std::endl;
         std::cout << "||     LISTA DE ESPERA - ZONA DE URGENCIAS ||" << std::endl;
         std::cout << "=============================================" << std::endl;
         for (int i = 0; i < 5; ++i) {
+            int totalCola = colas[i].size();
             std::cout << "Nivel " << (i + 1) << " [Prioridad " << (i + 1)
-                      << "] (Total: " << colas[i].size() << "):" << std::endl;
+                      << "] (Total: " << totalCola << ")";
+            if (totalCola >= umbral) {
+                std::cout << " [⚠️ SATURACION]";
+            }
+            std::cout << ":" << std::endl;
             if (colas[i].isEmpty()) {
                 std::cout << "  (Cola vacia)" << std::endl;
             } else {

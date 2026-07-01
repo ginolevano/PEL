@@ -28,11 +28,18 @@
 // ==========================================
 class SistemaUrgencias {
 private:
+    // Declaración ordenada: estadisticas primero para que se inicialice antes que historial
+    Estadisticas estadisticas;
     ListaEspera listaEspera;
     HistorialPacientes historial;
-    Estadisticas estadisticas;
 
 public:
+    // Constructor que inicializa el historial con la capacidad obtenida de la configuración
+    SistemaUrgencias() 
+        : estadisticas(), 
+          listaEspera(), 
+          historial(estadisticas.obtenerValor("Capacidad Inicial de Historial")) {}
+
     void precargarPaciente(Paciente* p) {
         if (p != nullptr) {
             listaEspera.insertarPaciente(p);
@@ -44,7 +51,8 @@ public:
         bool salir = false;
 
         std::cout << "==========================================" << std::endl;
-        std::cout << "   SISTEMA DE URGENCIAS - ZONA MILITAR" << std::endl;
+        std::cout << "   SISTEMA DE URGENCIAS - BASE MILITAR #" 
+                  << estadisticas.obtenerValor("ID de la Unidad de Combate") << std::endl;
         std::cout << "==========================================" << std::endl;
 
         mostrarAyuda();
@@ -93,6 +101,9 @@ private:
         else if (comando == "estado") {
             mostrarEstadoGeneral();
         }
+        else if (comando == "config") {
+            comandoConfig();
+        }
         else {
             std::cout << "Comando no reconocido. Escribe 'ayuda'." << std::endl;
         }
@@ -110,6 +121,7 @@ private:
         std::cout << "estadistica    -> mostrar estadisticas" << std::endl;
         std::cout << "demo     -> cargar pacientes de prueba" << std::endl;
         std::cout << "estado    -> mostrar estado general" << std::endl;
+        std::cout << "config    -> cambiar configuracion de la herramienta" << std::endl;
         std::cout << "exit     -> salir" << std::endl;
     }
 
@@ -136,7 +148,7 @@ private:
             std::cout << "Paciente anadido correctamente." << std::endl;
 
             // Estado que toca despues de anadir
-            listaEspera.mostrarListaEspera();
+            listaEspera.mostrarListaEspera(estadisticas.obtenerValor("Umbral de Alerta de Espera"));
         } else {
             std::cout << "Prioridad incorrecta. Debe estar entre 1 y 5." << std::endl;
         }
@@ -157,7 +169,7 @@ private:
             std::cout << "Paciente movido al historial y registrado en estadisticas." << std::endl;
 
             // Estado que toca despues de atender
-            listaEspera.mostrarListaEspera();
+            listaEspera.mostrarListaEspera(estadisticas.obtenerValor("Umbral de Alerta de Espera"));
             historial.mostrarHistorial();
             estadisticas.mostrarEstadisticas();
         } else {
@@ -166,7 +178,7 @@ private:
     }
 
     void comandoWait() const {
-        listaEspera.mostrarListaEspera();
+        listaEspera.mostrarListaEspera(estadisticas.obtenerValor("Umbral de Alerta de Espera"));
     }
 
     void comandoHistory() const {
@@ -217,18 +229,58 @@ private:
         std::cout << "Pacientes de prueba (demo de 16 pacientes de urgencia) cargados correctamente." << std::endl;
 
         // Estado que toca despues de cargar demo
-        listaEspera.mostrarListaEspera();
+        listaEspera.mostrarListaEspera(estadisticas.obtenerValor("Umbral de Alerta de Espera"));
     }
 
     void mostrarEstadoGeneral() const {
         std::cout << std::endl;
         std::cout << "========== ESTADO GENERAL DEL SISTEMA ==========" << std::endl;
 
-        listaEspera.mostrarListaEspera();
+        listaEspera.mostrarListaEspera(estadisticas.obtenerValor("Umbral de Alerta de Espera"));
         historial.mostrarHistorial();
         estadisticas.mostrarEstadisticas();
 
         std::cout << "================================================" << std::endl;
+    }
+
+    void comandoConfig() {
+        std::cout << "\n===== CONFIGURACION DE LA HERRAMIENTA =====" << std::endl;
+        std::cout << "1. ID de la Unidad de Combate (Actual: " << estadisticas.obtenerValor("ID de la Unidad de Combate") << ")" << std::endl;
+        std::cout << "2. Umbral de Alerta de Espera (Actual: " << estadisticas.obtenerValor("Umbral de Alerta de Espera") << ")" << std::endl;
+        std::cout << "3. Capacidad Inicial de Historial (Actual: " << estadisticas.obtenerValor("Capacidad Inicial de Historial") << ")" << std::endl;
+        std::cout << "Seleccione el parametro a modificar (1-3) o 0 para salir: ";
+
+        int opcion;
+        std::cin >> opcion;
+        limpiarBuffer();
+
+        if (opcion < 1 || opcion > 3) {
+            std::cout << "Operacion cancelada." << std::endl;
+            return;
+        }
+
+        std::cout << "Ingrese el nuevo valor entero: ";
+        int nuevoValor;
+        std::cin >> nuevoValor;
+        limpiarBuffer();
+
+        if (nuevoValor < 1) {
+            std::cout << "El valor debe ser al menos 1." << std::endl;
+            return;
+        }
+
+        std::string parametro;
+        if (opcion == 1) {
+            parametro = "ID de la Unidad de Combate";
+        } else if (opcion == 2) {
+            parametro = "Umbral de Alerta de Espera";
+        } else if (opcion == 3) {
+            parametro = "Capacidad Inicial de Historial";
+            std::cout << "[NOTA] El cambio de capacidad del historial surtira efecto en el proximo reinicio del sistema." << std::endl;
+        }
+
+        estadisticas.establecerValor(parametro, nuevoValor);
+        std::cout << "Parametro '" << parametro << "' actualizado con exito a: " << nuevoValor << std::endl;
     }
 
     void limpiarBuffer() const {
