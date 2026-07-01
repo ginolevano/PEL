@@ -10,6 +10,9 @@
 //    #include "Estadísticas y Configuración.cpp" // (Renombrar a Estadisticas.cpp recomendado)
 // ============================================================================
 
+#ifndef MENUSISTEMA_CPP
+#define MENUSISTEMA_CPP
+
 //
 // Created by GINO LEVANO on 01/07/2026.
 //
@@ -17,6 +20,7 @@
 #include <string>
 #include <limits>
 #include "Urgencias.cpp"
+#include "Historial.cpp"
 #include "Estadisticas.cpp"
 
 // ==========================================
@@ -29,6 +33,12 @@ private:
     Estadisticas estadisticas;
 
 public:
+    void precargarPaciente(Paciente* p) {
+        if (p != nullptr) {
+            listaEspera.insertarPaciente(p);
+        }
+    }
+
     void ejecutar() {
         std::string comando;
         bool salir = false;
@@ -178,13 +188,33 @@ private:
     }
 
     void comandoDemo() {
-        listaEspera.insertarPaciente(new Paciente("Ana", "Herida", 1));
-        listaEspera.insertarPaciente(new Paciente("Luis", "Fiebre", 3));
-        listaEspera.insertarPaciente(new Paciente("Carlos", "Fractura", 2));
-        listaEspera.insertarPaciente(new Paciente("Marta", "Revision", 5));
-        listaEspera.insertarPaciente(new Paciente("Gino", "Dolor", 1));
+        // Nivel 1 [Prioridad 1] - Código Rojo (Reanimación inmediata / Riesgo vital)
+        listaEspera.insertarPaciente(new Paciente("Floki Vilgerdarson", "Traumatismo toracico cerrado por explosion", 1));
+        listaEspera.insertarPaciente(new Paciente("Ana Gomez", "Herida penetrante por bala en abdomen", 1));
+        listaEspera.insertarPaciente(new Paciente("Gino Levano", "Shock hipovolemico por hemorragia masiva", 1));
 
-        std::cout << "Pacientes de prueba cargados correctamente." << std::endl;
+        // Nivel 2 [Prioridad 2] - Código Naranja (Emergente / Muy urgente)
+        listaEspera.insertarPaciente(new Paciente("Carlos Ruiz", "Fractura abierta expuesta de femur derecho", 2));
+        listaEspera.insertarPaciente(new Paciente("Marta Diaz", "Quemaduras de segundo y tercer grado por metralla", 2));
+        listaEspera.insertarPaciente(new Paciente("Ragnar Lothbrok", "Corte arterial profundo en brazo izquierdo", 2));
+        listaEspera.insertarPaciente(new Paciente("Lagertha Shield", "Traumatismo craneoencefalico moderado", 2));
+
+        // Nivel 3 [Prioridad 3] - Código Amarillo (Urgente / Estable con dolor)
+        listaEspera.insertarPaciente(new Paciente("Luis Perez", "Fiebre de 40 grados con deshidratacion severa", 3));
+        listaEspera.insertarPaciente(new Paciente("Bjorn Ironside", "Dolor abdominal agudo (sospecha apendicitis)", 3));
+        listaEspera.insertarPaciente(new Paciente("Ivar Ragnarsson", "Esguince de tobillo grado III por caida", 3));
+
+        // Nivel 4 [Prioridad 4] - Código Verde (Estándar / Urgencia menor)
+        listaEspera.insertarPaciente(new Paciente("Rollo Sigurdsson", "Corte superficial en mano por manipulacion de arma", 4));
+        listaEspera.insertarPaciente(new Paciente("Erik el Rojo", "Infeccion cutanea localizada en pierna", 4));
+        listaEspera.insertarPaciente(new Paciente("Ubba Lothbrokson", "Otalgia severa y sospecha de infeccion de oido", 4));
+
+        // Nivel 5 [Prioridad 5] - Código Azul (No urgente / Consultas y revisiones)
+        listaEspera.insertarPaciente(new Paciente("Marta Sanchez", "Chequeo de rutina de constantes vitales en combate", 5));
+        listaEspera.insertarPaciente(new Paciente("Harald Fairhair", "Cefalea tensional leve y cansancio extremo", 5));
+        listaEspera.insertarPaciente(new Paciente("Alfred de Wessex", "Tos persistente e irritacion de garganta leve", 5));
+
+        std::cout << "Pacientes de prueba (demo de 16 pacientes de urgencia) cargados correctamente." << std::endl;
 
         // Estado que toca despues de cargar demo
         listaEspera.mostrarListaEspera();
@@ -208,3 +238,5 @@ private:
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 };
+
+#endif // MENUSISTEMA_CPP

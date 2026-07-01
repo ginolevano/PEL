@@ -13,19 +13,28 @@
 // 4. ESPACIO DE NOMBRES: Evitar "using namespace std;" a nivel global del archivo, 
 //    ya que al incluirse directamente mediante #include contamina el main.cpp.
 // ============================================================================
+
+#ifndef ESTADISTICAS_CPP
+#define ESTADISTICAS_CPP
+
 #include <iostream>
 #include <string>
 #include "Urgencias.cpp"
-#include "MenuSistema.cpp"
+
+
+using namespace std;
 
 class NodoEstadistica {
 public:
-    std::string nombre;
+    string nombre;
     int valor;
     NodoEstadistica* siguiente;
 
-    NodoEstadistica(const std::string& nombre, int valor)
-        : nombre(nombre), valor(valor), siguiente(nullptr) {}
+    NodoEstadistica(string nombre, int valor) {
+        this->nombre = nombre;
+        this->valor = valor;
+        this->siguiente = nullptr;
+    }
 };
 
 class Estadisticas {
@@ -33,7 +42,9 @@ private:
     NodoEstadistica* cabeza;
 
 public:
-    Estadisticas() : cabeza(nullptr) {
+    Estadisticas() {
+        cabeza = nullptr;
+
         agregarEstadistica("Total pacientes atendidos", 0);
         agregarEstadistica("Pacientes prioridad 1", 0);
         agregarEstadistica("Pacientes prioridad 2", 0);
@@ -42,61 +53,23 @@ public:
         agregarEstadistica("Pacientes prioridad 5", 0);
     }
 
+    // Deshabilitar copia para prevenir la duplicidad de nodos y doble liberación
     Estadisticas(const Estadisticas&) = delete;
     Estadisticas& operator=(const Estadisticas&) = delete;
 
     ~Estadisticas() {
         NodoEstadistica* actual = cabeza;
+
         while (actual != nullptr) {
             NodoEstadistica* borrar = actual;
             actual = actual->siguiente;
             delete borrar;
         }
+
+        cabeza = nullptr;
     }
 
-    void registrarPaciente(Paciente * p) {
-        if (p != nullptr) {
-            registrarPacienteAtendido(p->getPrioridad());
-        }
-    }
-
-    void registrarPacienteAtendido(int prioridad) {
-        if (prioridad >= 1 && prioridad <= 5) {
-            incrementar("Total pacientes atendidos");
-
-            std::string nombrePrioridad =
-                "Pacientes prioridad " + std::to_string(prioridad);
-
-            incrementar(nombrePrioridad);
-        } else {
-            std::cout << "Prioridad no valida. Debe estar entre 1 y 5." << std::endl;
-        }
-    }
-
-    void mostrarEstadisticas() const {
-        std::cout << "\n===== ESTADISTICAS Y CONFIGURACION =====" << std::endl;
-
-        NodoEstadistica* actual = cabeza;
-        while (actual != nullptr) {
-            std::cout << actual->nombre << ": " << actual->valor << std::endl;
-            actual = actual->siguiente;
-        }
-
-        std::cout << "========================================" << std::endl;
-    }
-
-    void reiniciarEstadisticas() {
-        NodoEstadistica* actual = cabeza;
-        while (actual != nullptr) {
-            actual->valor = 0;
-            actual = actual->siguiente;
-        }
-
-        std::cout << "Estadisticas reiniciadas correctamente." << std::endl;
-    }
-
-private:
-    void agregarEstadistica(const std::string& nombre, int valor) {
+    void agregarEstadistica(string nombre, int valor) {
         NodoEstadistica* nuevo = new NodoEstadistica(nombre, valor);
 
         if (cabeza == nullptr) {
@@ -112,7 +85,7 @@ private:
         }
     }
 
-    void incrementar(const std::string& nombre) {
+    void incrementar(string nombre) {
         NodoEstadistica* actual = cabeza;
 
         while (actual != nullptr) {
@@ -120,7 +93,64 @@ private:
                 actual->valor++;
                 return;
             }
+
             actual = actual->siguiente;
         }
     }
+
+    void registrarPacienteAtendido(int prioridad) {
+        if (prioridad >= 1 && prioridad <= 5) {
+            incrementar("Total pacientes atendidos");
+            string nombrePrioridad = "Pacientes prioridad " + to_string(prioridad);
+            incrementar(nombrePrioridad);
+        } else {
+            cout << "Prioridad no valida. Debe estar entre 1 y 5." << endl;
+        }
+    }
+
+    void registrarPaciente(Paciente* p) {
+        if (p != nullptr) {
+            registrarPacienteAtendido(p->getPrioridad());
+        }
+    }
+
+    void mostrarEstadisticas() const {
+        cout << "\n===== ESTADISTICAS Y CONFIGURACION =====" << endl;
+
+        NodoEstadistica* actual = cabeza;
+
+        while (actual != nullptr) {
+            cout << actual->nombre << ": " << actual->valor << endl;
+            actual = actual->siguiente;
+        }
+
+        cout << "========================================" << endl;
+    }
+
+    int obtenerValor(string nombre) const {
+        NodoEstadistica* actual = cabeza;
+
+        while (actual != nullptr) {
+            if (actual->nombre == nombre) {
+                return actual->valor;
+            }
+
+            actual = actual->siguiente;
+        }
+
+        return -1;
+    }
+
+    void reiniciarEstadisticas() {
+        NodoEstadistica* actual = cabeza;
+
+        while (actual != nullptr) {
+            actual->valor = 0;
+            actual = actual->siguiente;
+        }
+
+        cout << "Estadisticas reiniciadas correctamente." << endl;
+    }
 };
+
+#endif // ESTADISTICAS_CPP

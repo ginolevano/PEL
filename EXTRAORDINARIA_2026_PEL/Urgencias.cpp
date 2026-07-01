@@ -1,7 +1,8 @@
+#ifndef URGENCIAS_CPP
+#define URGENCIAS_CPP
+
 #include <iostream>
 #include <string>
-#include "Estadisticas.cpp"
-#include "MenuSistema.cpp"
 // ==========================================
 // 1. CLASE PACIENTE (Modelo de Datos)
 // ==========================================
@@ -203,3 +204,5 @@ public:
         std::cout << "=============================================" << std::endl;
     }
 };
+
+#endif // URGENCIAS_CPP
