@@ -1,12 +1,10 @@
-
-#include <iostream>
-#include <fstream>
-#include <limits>
-#include <string>
-#include <sstream>
-#include <cstdlib>
-#include <ctime>
+#include "Urgencias.cpp"
+#include "Estadistica.cpp"
+#include "pruebaMenu.cpp"
 
 int main() {
+    SistemaUrgencias sistema;
+    sistema.ejecutar();
 
+    return 0;
 }
