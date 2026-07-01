@@ -20,7 +20,7 @@
 #include <string>
 #include <limits>
 #include "Urgencias.cpp"
-#include "Historial.cpp"
+#include "HistorialPacientes.cpp"
 #include "Estadisticas.cpp"
 
 // ==========================================

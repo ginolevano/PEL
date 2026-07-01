@@ -6,7 +6,7 @@
 
 // Inclusión directa de archivos de código fuente (.cpp) para evitar archivos de cabecera (.h)
 #include "Urgencias.cpp"
-#include "Historial.cpp"
+#include "HistorialPacientes.cpp"
 #include "Estadisticas.cpp"
 #include "MenuSistema.cpp"
 
