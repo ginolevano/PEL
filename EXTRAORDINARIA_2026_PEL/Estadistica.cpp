@@ -120,7 +120,6 @@ private:
                 actual->valor++;
                 return;
             }
-
             actual = actual->siguiente;
         }
     }
