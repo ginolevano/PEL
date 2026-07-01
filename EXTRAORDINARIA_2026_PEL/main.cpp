@@ -9,7 +9,6 @@
 #include "Historial.cpp"
 #include "Estadisticas.cpp"
 #include "MenuSistema.cpp"
-#include "HistorialPacientes.cpp"
 
 int main() {
     std::srand(std::time(nullptr));

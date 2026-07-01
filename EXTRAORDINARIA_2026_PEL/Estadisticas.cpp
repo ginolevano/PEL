@@ -1,22 +1,9 @@
-// ============================================================================
-// REVISIÓN Y RECOMENDACIONES DE INTEGRACIÓN (POR FAVOR REVISAR):
-// 1. BUG LÓGICO EN registrarPacienteAtendido: Si la prioridad es inválida, se
-//    imprime un mensaje de error pero se incrementa igualmente el contador 
-//    "Total pacientes atendidos". Debe ir dentro del condicional "if".
-// 2. GESTIÓN DE MEMORIA: Deshabilitar el constructor de copia y operador de 
-//    asignación con "= delete" para evitar Double Frees / caídas del programa.
-// 3. INCOMPATIBILIDAD CON pruebaMenu.cpp:
-//    - El menú busca la clase con el nombre "Estadisticas", no "EstadisticasConfiguracion".
-//    - El menú llama a "registrarPaciente(Paciente* p)" en lugar de "registrarPacienteAtendido(int)".
-//    Se sugiere renombrar la clase a "Estadisticas" e implementar el método puente:
-//    void registrarPaciente(Paciente* p) { if (p != nullptr) registrarPacienteAtendido(p->getPrioridad()); }
-// 4. ESPACIO DE NOMBRES: Evitar "using namespace std;" a nivel global del archivo, 
-//    ya que al incluirse directamente mediante #include contamina el main.cpp.
-// ============================================================================
+#ifndef ESTADISTICAS_CPP
+#define ESTADISTICAS_CPP
+
 #include <iostream>
 #include <string>
 #include "Urgencias.cpp"
-
 
 class NodoEstadistica {
 public:
@@ -40,6 +27,11 @@ public:
         agregarEstadistica("Pacientes prioridad 3", 0);
         agregarEstadistica("Pacientes prioridad 4", 0);
         agregarEstadistica("Pacientes prioridad 5", 0);
+
+        // --- CONFIGURACIÓN DE LA HERRAMIENTA ---
+        agregarEstadistica("ID de la Unidad de Combate", 101);
+        agregarEstadistica("Umbral de Alerta de Espera", 5);
+        agregarEstadistica("Capacidad Inicial de Historial", 2);
     }
 
     Estadisticas(const Estadisticas&) = delete;
@@ -54,7 +46,7 @@ public:
         }
     }
 
-    void registrarPaciente(Paciente * p) {
+    void registrarPaciente(Paciente* p) {
         if (p != nullptr) {
             registrarPacienteAtendido(p->getPrioridad());
         }
@@ -63,10 +55,7 @@ public:
     void registrarPacienteAtendido(int prioridad) {
         if (prioridad >= 1 && prioridad <= 5) {
             incrementar("Total pacientes atendidos");
-
-            std::string nombrePrioridad =
-                "Pacientes prioridad " + std::to_string(prioridad);
-
+            std::string nombrePrioridad = "Pacientes prioridad " + std::to_string(prioridad);
             incrementar(nombrePrioridad);
         } else {
             std::cout << "Prioridad no valida. Debe estar entre 1 y 5." << std::endl;
@@ -85,14 +74,38 @@ public:
         std::cout << "========================================" << std::endl;
     }
 
+    int obtenerValor(const std::string& nombre) const {
+        NodoEstadistica* actual = cabeza;
+        while (actual != nullptr) {
+            if (actual->nombre == nombre) {
+                return actual->valor;
+            }
+            actual = actual->siguiente;
+        }
+        return -1;
+    }
+
+    void establecerValor(const std::string& nombre, int nuevoValor) {
+        NodoEstadistica* actual = cabeza;
+        while (actual != nullptr) {
+            if (actual->nombre == nombre) {
+                actual->valor = nuevoValor;
+                return;
+            }
+            actual = actual->siguiente;
+        }
+    }
+
     void reiniciarEstadisticas() {
         NodoEstadistica* actual = cabeza;
         while (actual != nullptr) {
-            actual->valor = 0;
+            // Solo reiniciar contadores de estadísticas, no las configuraciones de la herramienta
+            if (actual->nombre.rfind("Total", 0) == 0 || actual->nombre.rfind("Pacientes", 0) == 0) {
+                actual->valor = 0;
+            }
             actual = actual->siguiente;
         }
-
-        std::cout << "Estadisticas reiniciadas correctamente." << std::endl;
+        std::cout << "Estadisticas de pacientes reiniciadas correctamente." << std::endl;
     }
 
 private:
@@ -103,18 +116,15 @@ private:
             cabeza = nuevo;
         } else {
             NodoEstadistica* actual = cabeza;
-
             while (actual->siguiente != nullptr) {
                 actual = actual->siguiente;
             }
-
             actual->siguiente = nuevo;
         }
     }
 
     void incrementar(const std::string& nombre) {
         NodoEstadistica* actual = cabeza;
-
         while (actual != nullptr) {
             if (actual->nombre == nombre) {
                 actual->valor++;
@@ -124,3 +134,5 @@ private:
         }
     }
 };
+
+#endif // ESTADISTICAS_CPP
