@@ -12,7 +12,7 @@ private:
     std::string nombre;
     std::string motivo;
     int prioridad; // De 1 (más urgente) a 5 (menos urgente)
-    static int nextId; // Contador estático para IDs únicos
+    inline static int nextId = 1; // Contador estático para IDs únicos
 
 public:
     Paciente(const std::string& nombre = "", const std::string& motivo = "", int prioridad = 5)
@@ -50,9 +50,6 @@ public:
                   << " | Motivo: " << motivo << std::endl;
     }
 };
-
-// Inicialización del contador estático
-int Paciente::nextId = 1;
 
 // ==========================================
 // 2. NODO DE ENLACE (Estructura Lineal)
